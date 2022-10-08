@@ -38,7 +38,10 @@ function App() {
     if (currentUser.isLoggedIn) {
       Promise.all([api.getUserInfo(), api.loadAllCards()])
         .then(([user, cards]) => {
-          setCurrentUser(user);
+          setCurrentUser((prev) => {
+            console.log(currentUser)
+            return { ...prev, ...user };
+          })
           setCards(cards);
         })
         .catch((error) => {
@@ -49,12 +52,13 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    console.log(jwt);
+    // console.log(jwt);
     if (jwt) {
       regApi
         .getMe()
         .then((res) => {
           setCurrentUser((prev) => {
+            // console.log(prev)
             return { ...prev, ...res.data, isLoggedIn: true };
           });
         })
@@ -102,6 +106,7 @@ function App() {
 
   const onSignOut = () => {
     localStorage.removeItem("jwt");
+    console.log(currentUser.isLoggedIn)
     setCurrentUser({ isLoggedIn: false });
     // navigate("/sign-in");
     history.push('/sign-in');
@@ -162,6 +167,7 @@ function App() {
       .setUserInfo(user)
       .then((res) => {
         setCurrentUser(res);
+        console.log(currentUser.isLoggedIn)
         setIsEditProfilePopupOpen(false);
       })
       .catch((err) => console.log(err));
@@ -171,6 +177,7 @@ function App() {
       .setAvatar(avatar)
       .then((user) => {
         setCurrentUser(user);
+        console.log(currentUser.isLoggedIn)
         setIsEditAvatarPopupOpen(false);
       })
       .catch((err) => console.log(err));

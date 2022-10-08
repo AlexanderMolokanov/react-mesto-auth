@@ -9,7 +9,7 @@ function Header({ onLogoutClick }) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const toggleMenu = () => setMenuIsOpen(!menuIsOpen);
-  console.log(currentUser?.isLoggedIn);
+  // console.log(currentUser?.isLoggedIn);
 
   const logoutMobile = () => {
     onLogoutClick();

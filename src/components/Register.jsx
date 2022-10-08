@@ -5,7 +5,7 @@ import { RegForm } from "./RegForm";
 
 export const Register = ({ onSubmit }) => {
   const currentUser = useContext(CurrentUserContext);
-  console.log(currentUser)
+  // console.log(currentUser)
 
   return currentUser?.isLoggedIn ? ( 
     <Redirect to="/" />

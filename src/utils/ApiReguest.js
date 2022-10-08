@@ -39,7 +39,7 @@ export class ApiReguest {
   }
 
   postPass(type, item) {
-    console.log(item)
+    // console.log(item)
     const promise = fetch(`${this._url}/${type}`, {
       
       method: "POST",
