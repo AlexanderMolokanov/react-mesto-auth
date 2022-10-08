@@ -7,7 +7,7 @@ export const Register = ({ onSubmit }) => {
   const currentUser = useContext(CurrentUserContext);
   console.log(currentUser)
 
-  return !!currentUser?.isLoggedIn ? ( 
+  return currentUser?.isLoggedIn ? ( 
     <Redirect to="/" />
   ) : (
     <RegForm

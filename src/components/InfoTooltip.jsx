@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const InfoPopup = ({ children, isOpen, onClose }) => {
+export const InfoTooltip = ({ children, isOpen, onClose }) => {
   const handleEscClose = (e) => e.key === "Escape" && onClose(e);
 
   useEffect(() => {

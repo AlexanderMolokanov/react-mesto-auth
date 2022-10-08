@@ -20,7 +20,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Login } from "./Login";
 import { Register } from "./Register";
-import { InfoPopup } from "./InfoPopup";
+import { InfoTooltip } from "./InfoTooltip";
 
 function App() {
   // Состояния
@@ -49,7 +49,7 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    // console.log(jwt);
+    console.log(jwt);
     if (jwt) {
       regApi
         .getMe()
@@ -73,7 +73,6 @@ function App() {
 
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
-
     api
       .toggleLike(card._id, isLiked)
       .then((newCard) =>
@@ -89,7 +88,7 @@ function App() {
     regApi.signup(signupPayload).then(handleSuccess).catch(handleError);
   };
 
-  const handleLogin = (loginPayload) =>
+  const onLogin = (loginPayload) =>
     regApi
       .signin(loginPayload)
       .then((res) => {
@@ -101,7 +100,7 @@ function App() {
       })
       .catch(handleError);
 
-  const handleLogout = () => {
+  const onSignOut = () => {
     localStorage.removeItem("jwt");
     setCurrentUser({ isLoggedIn: false });
     // navigate("/sign-in");
@@ -196,10 +195,10 @@ function App() {
     <div className="whole-page">
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header onLogoutClick={handleLogout} />
+          <Header onLogoutClick={onSignOut} />
           <Switch>
             <Route path="/sign-in">
-              <Login onSubmit={handleLogin} />
+              <Login onSubmit={onLogin} />
             </Route>
             <Route path="/sign-up">
               <Register onSubmit={handleRegistration} />
@@ -235,7 +234,7 @@ function App() {
           />
           <ImagePopup onClose={handlePopupClose} card={selectedCard} />
 
-          <InfoPopup
+          <InfoTooltip
             onClose={handleSuccessPopupClose}
             isOpen={isSuccessPopupOpen}
           >
@@ -243,14 +242,14 @@ function App() {
             <h2 className="popup__info-title">
               Вы успешно зарегистрировались!
             </h2>
-          </InfoPopup>
+          </InfoTooltip>
 
-          <InfoPopup onClose={handlePopupClose} isOpen={isErrorPopupOpen}>
+          <InfoTooltip onClose={handlePopupClose} isOpen={isErrorPopupOpen}>
             <div className="popup__info-box popup__info-box_error"></div>
             <h2 className="popup__info-title">
               Что-то пошло не так! Попробуйте ещё раз.
             </h2>
-          </InfoPopup>
+          </InfoTooltip>
 
         </CurrentUserContext.Provider>
       </div>
