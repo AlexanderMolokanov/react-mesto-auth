@@ -44,7 +44,7 @@ export const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
           type="text"
           placeholder="Название"
           onChange={handleChange}
-          value={name}
+          value={name || ""} 
         />
         <span className="popup__error"></span>
       </div>
@@ -56,7 +56,7 @@ export const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
           name="placeLink"
           placeholder="Ссылка на картинку"
           onChange={handleChange}
-          value={link}
+          value={link || ""}
         />
         <span className="popup__error"></span>
       </div>

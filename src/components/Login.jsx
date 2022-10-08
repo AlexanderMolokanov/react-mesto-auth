@@ -1,17 +1,14 @@
 import { useContext } from "react";
-// import { Navigate } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { AuthForm } from "./AuthForm";
+import { Redirect } from "react-router-dom";
+import { RegForm } from "./RegForm";
 
 export const Login = ({ onSubmit }) => {
   const currentUser = useContext(CurrentUserContext);
 
-  return currentUser?.isLoggedIn ? 
-  // (
- ( <AuthForm title="Вход" buttonLabel="Войти" onSubmit={onSubmit} />
-    // <Navigate to="/" />
-  ) : 
-  (
-    <AuthForm title="Вход" buttonLabel="Войти" onSubmit={onSubmit} />
+  return currentUser?.isLoggedIn ? (
+    <Redirect to="/" />
+  ) : (
+    <RegForm onSubmit={onSubmit} title="Вход" buttonLabel="Войти" />
   );
 };

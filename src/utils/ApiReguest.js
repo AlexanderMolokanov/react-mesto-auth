@@ -38,6 +38,34 @@ export class ApiReguest {
     return this._renderPromise(promise);
   }
 
+  postPass(type, item) {
+    const promise = fetch(`${this._url}/${type}`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        password: item.password,
+        email: item.email,
+      }),
+    });
+    return this._renderPromise(promise);
+  }
+
+  getMe(type) {
+    const promise = fetch(`${this._url}/${type}`, {
+      method: "GET", 
+      headers: this._headers, 
+    });
+    return this._renderPromise(promise);
+  }
+
+  checkAuth(type) {
+    const promise = fetch(`${this._url}/${type}`, {
+      method: "GET",
+      headers: { authorization: `Bearer ${localStorage.getItem("jwt")}` },
+    });
+    return this._renderPromise(promise);
+  }
+
   patch(type, keys) {
     const promise = fetch(`${this._url}/${type}`, {
       method: "PATCH",

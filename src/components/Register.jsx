@@ -1,27 +1,24 @@
 import { useContext } from "react";
-import { 
-  // Navigate, 
-  Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-// import { authApi } from "../utils/Api";
-import { AuthForm } from "./AuthForm";
+import { RegForm } from "./RegForm";
 
 export const Register = ({ onSubmit }) => {
   const currentUser = useContext(CurrentUserContext);
+  console.log(currentUser)
 
-  return !!currentUser?.isLoggedIn ? (
-    // <Navigate to="/" />
-    <AuthForm/>
+  return !!currentUser?.isLoggedIn ? ( 
+    <Redirect to="/" />
   ) : (
-    <AuthForm
+    <RegForm
       title="Регистрация"
       buttonLabel="Зарегистрироваться"
       onSubmit={onSubmit}
       hint={
-        <p className="authform__hint">
-          Уже зарегистрированы?{" "}
-          <Link className="authform__hint-link" to="/sign-in">
-            Войти
+        <p className="regform__hint">
+           {`Уже зарегистрированы? `}
+          <Link className="regform__hint-link" to="/sign-in">
+             Войти
           </Link>
         </p>
       }

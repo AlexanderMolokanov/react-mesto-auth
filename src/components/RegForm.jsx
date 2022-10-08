@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-export const AuthForm = ({ onSubmit, title, buttonLabel, hint }) => {
+export const RegForm = (
+  { onSubmit, title, buttonLabel, hint }
+  ) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -25,31 +27,31 @@ export const AuthForm = ({ onSubmit, title, buttonLabel, hint }) => {
 
   return (
     <main className="content">
-      <form className="authform" onSubmit={submitHandler}>
-        <h1 className="authform__title">{title}</h1>
+      <form className="regform" onSubmit={submitHandler}>
+        <h1 className="regform__title">{title}</h1>
         <input
+          onChange={handleChange}
           type="email"
-          className="authform__input"
+          className="regform__input"
           name="email"
-          placeholder="Email"
+          placeholder="Email" 
           required
           minLength="2"
           maxLength="40"
-          onChange={handleChange}
-          value={email || ""}
+          value={email || "" }
         />
         <input
+          onChange={handleChange}
           type="password"
-          className="authform__input"
+          className="regform__input"
           name="password"
           placeholder="Пароль"
           required
           minLength="6"
           maxLength="40"
-          onChange={handleChange}
-          value={password || ""}
+          value={password || "" }
         />
-        <button className="authform__submit-button" type="submit">
+        <button className="regform__submit-button" type="submit">
           {buttonLabel}
         </button>
         {hint ? hint : <></>}
@@ -57,3 +59,4 @@ export const AuthForm = ({ onSubmit, title, buttonLabel, hint }) => {
     </main>
   );
 };
+

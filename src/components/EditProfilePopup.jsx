@@ -14,10 +14,10 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
   }, [currentUser, isOpen]);
 
   const handleChange = (e) => {
-    if (e.target.name === "name") {
+    if (e.target.name === "nameInput") {
       setName(e.target.value);
     }
-    if (e.target.name === "about") {
+    if (e.target.name === "jobInput") {
       setDescription(e.target.value);
     }
   };
@@ -35,7 +35,7 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
       isOpen={isOpen}
       onClose={onClose}
       title="Редактировать профиль"
-      name="profile"  
+      name="profile"
       onSubmit={submitHandler}
       buttonLabel="Сохранить"
     >
@@ -49,7 +49,7 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
           name="nameInput"
           placeholder="Имя"
           onChange={handleChange}
-          value={name}
+          value={name || ""}
         />
         <span className="popup__error"></span>
       </div>
@@ -64,7 +64,7 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
           name="jobInput"
           placeholder="Род деятельности"
           onChange={handleChange}
-          value={description}
+          value={description || ""}
         />
         <span className="popup__error"></span>
       </div>
