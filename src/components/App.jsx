@@ -40,6 +40,7 @@ function App() {
         .then(([user, cards]) => {
           setCurrentUser((prev) => {
             console.log(currentUser)
+            console.log(`isLoggedIn = ${currentUser.isLoggedIn} !!!!!`);
             return { ...prev, ...user };
           })
           setCards(cards);
