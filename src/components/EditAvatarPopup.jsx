@@ -2,14 +2,14 @@ import { useRef } from "react";
 import { PopupWithForm } from "./PopupWithForm";
 
 export const EditAvatarPopup = ({ isOpen, onClose, onAvatarUpdate }) => {
-  // const avatarRef = useRef();
+  const avatarRef = useRef();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // onAvatarUpdate({
-    //   avatar: avatarRef.current.value,
-    // });
-    // avatarRef.current.value = "";
+    onAvatarUpdate({
+      avatar: avatarRef.current.value,
+    });
+    avatarRef.current.value = "";
   };
 
   return (
@@ -28,7 +28,7 @@ export const EditAvatarPopup = ({ isOpen, onClose, onAvatarUpdate }) => {
           placeholder="Ссылка на картинку"
           type="url"
           required
-          // ref={avatarRef}
+          ref={avatarRef}
         />
         <p className="popup__error avatar-link-error"></p>
       </div>

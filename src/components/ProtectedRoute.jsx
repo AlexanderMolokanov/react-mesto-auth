@@ -8,9 +8,7 @@ export const ProtectedRoute = ({ component: Component, ...props }) => {
     <Route>
       {() =>
         currentUser?.isLoggedIn ? (
-          <Component
-            {...props}
-          />
+          <Component {...props} />
         ) : (
           <Redirect to="/sign-in" />
         )

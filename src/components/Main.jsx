@@ -1,5 +1,4 @@
 import React from "react";
-// import avatar from '../images/defaultAvatar.jpg';
 import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { Card } from "./Card";

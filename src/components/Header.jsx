@@ -9,7 +9,6 @@ function Header({ onLogoutClick }) {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
 
   const toggleMenu = () => setMenuIsOpen(!menuIsOpen);
-  // console.log(currentUser?.isLoggedIn);
 
   const logoutMobile = () => {
     onLogoutClick();
@@ -47,7 +46,11 @@ function Header({ onLogoutClick }) {
         <Route exact path="/">
           <>
             <div
-              className={ menuIsOpen ? "header__burger-menu header__burger-menu_open" : "header__burger-menu"   }
+              className={
+                menuIsOpen
+                  ? "header__burger-menu header__burger-menu_open"
+                  : "header__burger-menu"
+              }
             >
               <span className="header__info header__info_mobile">
                 {currentUser?.email}
@@ -58,7 +61,7 @@ function Header({ onLogoutClick }) {
                 onClick={logoutMobile}
                 to="#"
               >
-                ВыйтиB
+                Выйти
               </Link>
             </div>
 
@@ -73,7 +76,7 @@ function Header({ onLogoutClick }) {
                   onClick={onLogoutClick}
                   to="#"
                 >
-                  ВыйтиЫ
+                  Выйти
                 </Link>
               </div>
             </div>

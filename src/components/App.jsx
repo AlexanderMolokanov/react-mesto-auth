@@ -3,9 +3,7 @@ import {
   // Routes,
   Route,
   Switch,
-  useHistory, 
-  // Redirect,
-  // ProtectedRoute,
+  useHistory,
   // useNavigate
 } from "react-router-dom";
 import Header from "./Header";
@@ -39,10 +37,8 @@ function App() {
       Promise.all([api.getUserInfo(), api.loadAllCards()])
         .then(([user, cards]) => {
           setCurrentUser((prev) => {
-            console.log(currentUser)
-            console.log(`isLoggedIn = ${currentUser.isLoggedIn} !!!!!`);
             return { ...prev, ...user };
-          })
+          });
           setCards(cards);
         })
         .catch((error) => {
@@ -53,13 +49,11 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    // console.log(jwt);
     if (jwt) {
       regApi
         .getMe()
         .then((res) => {
           setCurrentUser((prev) => {
-            // console.log(prev)
             return { ...prev, ...res.data, isLoggedIn: true };
           });
         })
@@ -68,7 +62,6 @@ function App() {
   }, []);
 
   // хуки
-  // const navigate = useNavigate();
   const history = useHistory();
 
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
@@ -89,7 +82,6 @@ function App() {
   };
 
   const handleRegistration = (signupPayload) => {
-    // console.log(signupPayload)
     regApi.signup(signupPayload).then(handleSuccess).catch(handleError);
   };
 
@@ -100,17 +92,14 @@ function App() {
         localStorage.setItem("jwt", res.token);
         currentUser.isLoggedIn = true;
         currentUser.email = loginPayload.email;
-        // navigate("/");
-        history.push('/');
+        history.push("/");
       })
       .catch(handleError);
 
   const onSignOut = () => {
     localStorage.removeItem("jwt");
-    console.log(currentUser.isLoggedIn)
     setCurrentUser({ isLoggedIn: false });
-    // navigate("/sign-in");
-    history.push('/sign-in');
+    history.push("/sign-in");
   };
 
   const handleError = () => setErrorPopupOpen(true);
@@ -168,7 +157,6 @@ function App() {
       .setUserInfo(user)
       .then((res) => {
         setCurrentUser(res);
-        console.log(currentUser.isLoggedIn)
         setIsEditProfilePopupOpen(false);
       })
       .catch((err) => console.log(err));
@@ -178,7 +166,6 @@ function App() {
       .setAvatar(avatar)
       .then((user) => {
         setCurrentUser(user);
-        console.log(currentUser.isLoggedIn)
         setIsEditAvatarPopupOpen(false);
       })
       .catch((err) => console.log(err));
@@ -195,8 +182,7 @@ function App() {
   const handleSuccessPopupClose = (e) => {
     closeAllPopups(e);
     // navigate("/sign-in");
-    history.push('/sign-in');
-    
+    history.push("/sign-in");
   };
 
   return (
@@ -224,7 +210,7 @@ function App() {
             ></ProtectedRoute>
           </Switch>
           <Footer />
-          
+
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={handlePopupClose}
@@ -258,7 +244,6 @@ function App() {
               Что-то пошло не так! Попробуйте ещё раз.
             </h2>
           </InfoTooltip>
-
         </CurrentUserContext.Provider>
       </div>
     </div>

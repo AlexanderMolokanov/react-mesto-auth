@@ -5,9 +5,8 @@ import { RegForm } from "./RegForm";
 
 export const Register = ({ onSubmit }) => {
   const currentUser = useContext(CurrentUserContext);
-  // console.log(currentUser)
 
-  return currentUser?.isLoggedIn ? ( 
+  return currentUser?.isLoggedIn ? (
     <Redirect to="/" />
   ) : (
     <RegForm
@@ -16,9 +15,9 @@ export const Register = ({ onSubmit }) => {
       onSubmit={onSubmit}
       hint={
         <p className="regform__hint">
-           {`Уже зарегистрированы? `}
+          {`Уже зарегистрированы? `}
           <Link className="regform__hint-link" to="/sign-in">
-             Войти
+            Войти
           </Link>
         </p>
       }

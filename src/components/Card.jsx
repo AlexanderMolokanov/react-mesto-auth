@@ -17,9 +17,9 @@ export function Card({ card, onCardClick, onCardLike, onDeleteClick }) {
         alt={card.name}
         src={card.link}
         onClick={handleClick}
-      />{" "}
+      />
       <div className="element__data">
-        <h2 className="element__title"> {card.name} </h2>{" "}
+        <h2 className="element__title"> {card.name} </h2>
         <div className="element__heart-datas">
           <button
             className={
@@ -27,21 +27,19 @@ export function Card({ card, onCardClick, onCardLike, onDeleteClick }) {
             }
             type="button"
             onClick={handleLikeClick}
-          ></button>{" "}
-          <div className="element__heart-number "> {card.likes.length} </div>{" "}
-        </div>{" "}
-      </div>{" "}
+          ></button>
+          <div className="element__heart-number "> {card.likes.length} </div>
+        </div>
+      </div>
       {isOwner ? (
         <button
           className="element__delete"
           type="button"
           onClick={handleDeleteClick}
-        >
-          {" "}
-        </button>
+        ></button>
       ) : (
         <></>
-      )}{" "}
+      )}
     </article>
   );
 }

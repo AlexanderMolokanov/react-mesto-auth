@@ -39,9 +39,7 @@ export class ApiReguest {
   }
 
   postPass(type, item) {
-    // console.log(item)
     const promise = fetch(`${this._url}/${type}`, {
-      
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
@@ -54,8 +52,8 @@ export class ApiReguest {
 
   getMe(type) {
     const promise = fetch(`${this._url}/${type}`, {
-      method: "GET", 
-      headers: this._headers, 
+      method: "GET",
+      headers: this._headers,
     });
     return this._renderPromise(promise);
   }

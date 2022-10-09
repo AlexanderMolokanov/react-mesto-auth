@@ -61,38 +61,10 @@ export class Api {
     return this._options.postPass("signin", singupPayload);
   }
 
-  // Returns user
+  // Вернуть пользователя
   getMe() {
-    return this._options.checkAuth('users/me')
-    
-    
-    // fetch(`${this._baseUrl}/users/me`, {
-    //   headers: this._headers,
-    // }).then((res) => this._resHandler(res)); 
+    return this._options.checkAuth("users/me");
   }
-
-  // // Auth
-  // signup(singupPayload) {
-  //   // console.log(this._baseUrl)
-  //   // console.log(signinPayload)
-  //   return fetch(`${this._baseUrl}/signup`, {
-  //     method: "POST",
-  //     headers: this._headers,
-  //     body: JSON.stringify(singupPayload),
-  //   }).then((res) => this._resHandler(res));
-  // }
-
-  // signin(signinPayload) {
-  //   return fetch(`${this._baseUrl}/signin`, {
-  //     method: "POST",
-  //     headers: this._headers,
-  //     body: JSON.stringify(signinPayload),
-  //   }).then((res) => this._resHandler(res));
-  // }
-
-  // auth(token) {
-  //   return this._client.checkAuth(token);
-  // }
 }
 
 const request = new ApiReguest("https://nomoreparties.co/v1/cohort-42/", {
@@ -103,27 +75,10 @@ const request = new ApiReguest("https://nomoreparties.co/v1/cohort-42/", {
 
 const regRequest = new ApiReguest("https://auth.nomoreparties.co", {
   "Content-Type": "application/json",
-  
-    authorization: `Bearer ${localStorage.getItem("jwt")}`,
-  
+
+  authorization: `Bearer ${localStorage.getItem("jwt")}`,
 });
 
 export const api = new Api(request);
 
 export const regApi = new Api(regRequest);
-
-
-// // Returns user
-// getMe() {
-//   return fetch(`${this._baseUrl}/users/me`, {
-//     headers: this._headers,
-//   }).then((res) => this._resHandler(res));
-// }
-
-// export const authApi = new Api({
-//   baseUrl: "https://auth.nomoreparties.co",
-//   headers: {
-//     "Content-Type": "application/json",
-//     authorization: `Bearer ${localStorage.getItem("jwt")}`,
-//   },
-// });

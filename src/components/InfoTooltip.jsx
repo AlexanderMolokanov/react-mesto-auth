@@ -11,13 +11,14 @@ export const InfoTooltip = ({ children, isOpen, onClose }) => {
   }, [isOpen]);
 
   return (
-    <div
-      className={isOpen ? "popup popup_opened" : "popup "}
-      onClick={onClose}
-    >
+    <div className={isOpen ? "popup popup_opened" : "popup "} onClick={onClose}>
       <div className="popup__container popup__container_info">
         {children}
-        <button className="popup__button-close" type="button" onClick={onClose}></button>
+        <button
+          className="popup__button-close"
+          type="button"
+          onClick={onClose}
+        ></button>
       </div>
     </div>
   );

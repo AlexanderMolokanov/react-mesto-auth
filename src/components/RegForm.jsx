@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-export const RegForm = (
-  { onSubmit, title, buttonLabel, hint }
-  ) => {
+export const RegForm = ({ onSubmit, title, buttonLabel, hint }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -34,11 +32,11 @@ export const RegForm = (
           type="email"
           className="regform__input"
           name="email"
-          placeholder="Email" 
+          placeholder="Email"
           required
           minLength="2"
           maxLength="40"
-          value={email || "" }
+          value={email || ""}
         />
         <input
           onChange={handleChange}
@@ -49,7 +47,7 @@ export const RegForm = (
           required
           minLength="6"
           maxLength="40"
-          value={password || "" }
+          value={password || ""}
         />
         <button className="regform__submit-button" type="submit">
           {buttonLabel}
@@ -59,4 +57,3 @@ export const RegForm = (
     </main>
   );
 };
-

@@ -20,10 +20,7 @@ export function PopupWithForm({
 
   return (
     <div
-      className={
-        isOpen ? 
-        `popup popup_opened ${name}` : 
-        `popup ${name}`}
+      className={isOpen ? `popup popup_opened ${name}` : `popup ${name}`}
       onClick={onClose}
     >
       <div className="popup__container">

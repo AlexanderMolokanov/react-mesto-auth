@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { PopupWithForm } from "./PopupWithForm";
 
-
 export const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
@@ -44,7 +43,7 @@ export const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
           type="text"
           placeholder="Название"
           onChange={handleChange}
-          value={name || ""} 
+          value={name || ""}
         />
         <span className="popup__error"></span>
       </div>
@@ -52,7 +51,8 @@ export const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
       <div className="popup__input-wrapper">
         <input
           type="url"
-          required className="popup__input"
+          required
+          className="popup__input"
           name="placeLink"
           placeholder="Ссылка на картинку"
           onChange={handleChange}
