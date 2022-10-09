@@ -8,7 +8,7 @@
   justify-content: center;
   gap: 18px;
   border: none;
-  margin: -24px 0 0;
+  margin: -23px -3px 0 -125px;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -16,6 +16,7 @@
   color: #ffffff;
   text-decoration: none;
   transition: all 0.3s;
+  padding: 0 19px ;
 }
 
 @media screen and (min-width: 768px) {

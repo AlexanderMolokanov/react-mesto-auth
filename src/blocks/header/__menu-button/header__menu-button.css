@@ -9,6 +9,9 @@
   cursor: pointer;
   transition: 0.3s;
   opacity: 1;
+  position: absolute;
+  right: 0;
+  bottom: 25px;
 }
 
 .header__menu-button:hover {

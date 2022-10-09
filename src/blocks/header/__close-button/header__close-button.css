@@ -9,6 +9,9 @@
   width: 20px;
   opacity: 1;
   transition: 0.3s;
+  position: absolute;
+  right: 0;
+  bottom: 30px;
 }
 
 .header__close-button:hover {
