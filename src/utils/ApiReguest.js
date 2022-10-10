@@ -17,14 +17,7 @@ export class ApiReguest {
       });
   }
 
-  get(type) {
-    const promise = fetch(`${this._url}/${type}`, {
-      method: "GET",
-      headers: this._headers,
-    });
-    return this._renderPromise(promise);
-  }
-
+  
   post(type, item) {
     const promise = fetch(`${this._url}/${type}`, {
       method: "POST",
@@ -37,7 +30,7 @@ export class ApiReguest {
     });
     return this._renderPromise(promise);
   }
-
+  
   postPass(type, item) {
     const promise = fetch(`${this._url}/${type}`, {
       method: "POST",
@@ -49,7 +42,15 @@ export class ApiReguest {
     });
     return this._renderPromise(promise);
   }
-
+  
+  get(type) {
+    const promise = fetch(`${this._url}/${type}`, {
+      method: "GET",
+      headers: this._headers,
+    });
+    return this._renderPromise(promise);
+  }
+  
   getMe(type) {
     const promise = fetch(`${this._url}/${type}`, {
       method: "GET",

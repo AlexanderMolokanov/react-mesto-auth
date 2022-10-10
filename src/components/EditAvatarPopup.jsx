@@ -10,7 +10,7 @@ export const EditAvatarPopup = ({ isOpen, onClose, onAvatarUpdate }) => {
       avatar: avatarRef.current.value,
     });
     avatarRef.current.value = "";
-  };
+  }; 
 
   return (
     <PopupWithForm

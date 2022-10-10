@@ -13,6 +13,7 @@ export function Main({
   onCardDelete,
 }) {
   const currentUser = useContext(CurrentUserContext);
+  console.log(currentUser)
   const section = () => {
     if (cards.length > 0) {
       return cards.map((card) => (

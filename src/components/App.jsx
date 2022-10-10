@@ -34,10 +34,17 @@ function App() {
   // юзэффекты
   useEffect(() => {
     if (currentUser.isLoggedIn) {
-      Promise.all([api.getUserInfo(), api.loadAllCards()])
-        .then(([user, cards]) => {
+      Promise.all([api.getUserInfo(), api.loadAllCards()]
+      // , api.getAvatar()
+      )
+        .then(([user, cards
+          // , avatar
+        ]
+          ) => {
           setCurrentUser((prev) => {
-            return { ...prev, ...user };
+            return { ...prev, ...user
+              // , ...avatar 
+            };
           });
           setCards(cards);
         })
@@ -147,8 +154,11 @@ function App() {
 
     if (isOpen) {
       document.addEventListener("keydown", closeByEscape);
+
     } else {
+
       document.removeEventListener("keydown", closeByEscape);
+      
     }
   }, [isOpen]);
 
