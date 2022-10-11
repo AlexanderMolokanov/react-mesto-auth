@@ -71,7 +71,8 @@ function App() {
           });
         })
         .catch((error) => console.log(error));
-    history.push("/", { replace: true });
+    // setCurrentUser({ isLoggedIn: true });
+    // history.push("/");
   }, []);
 
   // хуки
@@ -84,7 +85,7 @@ function App() {
       .then(() => {
         handleSuccess();
         // history.push("/");
-        // currentUser.isLoggedIn = true;
+        // setCurrentUser({ isLoggedIn: true });
       })
       .catch(handleError);
   };
@@ -96,8 +97,8 @@ function App() {
         res && localStorage.setItem("jwt", res.token);
 
         currentUser.email = loginPayload.email;
-        currentUser.isLoggedIn = true;
-        history.push("/", { replace: true });
+        setCurrentUser({ isLoggedIn: true });
+        history.push("/");
       })
       .catch(handleError);
 
@@ -126,7 +127,7 @@ function App() {
 
   const handleError = () => setErrorPopupOpen(true);
   const handleSuccess = () => {
-    setSuccessPopupOpen(true)
+    setSuccessPopupOpen(true);
   };
 
   const handleCardDelete = (card) =>
@@ -206,6 +207,7 @@ function App() {
   const handleSuccessPopupClose = (e) => {
     closeAllPopups(e);
     // navigate("/sign-in");
+    setCurrentUser({ isLoggedIn: true });
     history.push("/sign-in");
   };
 
