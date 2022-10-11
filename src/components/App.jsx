@@ -34,20 +34,26 @@ function App() {
   // юзэффекты
   useEffect(() => {
     if (currentUser.isLoggedIn) {
-      Promise.all([api.getUserInfo(), api.loadAllCards()]
-      // , api.getAvatar()
+      Promise.all(
+        [api.getUserInfo(), api.loadAllCards()]
+        // , api.getAvatar()
       )
-        .then(([user, cards
-          // , avatar
-        ]
-          ) => {
-          setCurrentUser((prev) => {
-            return { ...prev, ...user
-              // , ...avatar 
-            };
-          });
-          setCards(cards);
-        })
+        .then(
+          ([
+            user,
+            cards,
+            // , avatar
+          ]) => {
+            setCurrentUser((prev) => {
+              return {
+                ...prev,
+                ...user,
+                // , ...avatar
+              };
+            });
+            setCards(cards);
+          }
+        )
         .catch((error) => {
           console.log(error);
         });
@@ -56,7 +62,7 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    if (jwt) {
+    jwt &&
       regApi
         .getMe()
         .then((res) => {
@@ -65,11 +71,35 @@ function App() {
           });
         })
         .catch((error) => console.log(error));
-    }
+    history.push("/", { replace: true });
   }, []);
 
   // хуки
   const history = useHistory();
+
+  // хендлеры
+  const handleRegistration = (signupPayload) => {
+    regApi
+      .signup(signupPayload)
+      .then(() => {
+        handleSuccess();
+        // history.push("/");
+        // currentUser.isLoggedIn = true;
+      })
+      .catch(handleError);
+  };
+
+  const onLogin = (loginPayload) =>
+    regApi
+      .signin(loginPayload)
+      .then((res) => {
+        res && localStorage.setItem("jwt", res.token);
+
+        currentUser.email = loginPayload.email;
+        currentUser.isLoggedIn = true;
+        history.push("/", { replace: true });
+      })
+      .catch(handleError);
 
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
@@ -88,21 +118,6 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const handleRegistration = (signupPayload) => {
-    regApi.signup(signupPayload).then(handleSuccess).catch(handleError);
-  };
-
-  const onLogin = (loginPayload) =>
-    regApi
-      .signin(loginPayload)
-      .then((res) => {
-        localStorage.setItem("jwt", res.token);
-        currentUser.isLoggedIn = true;
-        currentUser.email = loginPayload.email;
-        history.push("/");
-      })
-      .catch(handleError);
-
   const onSignOut = () => {
     localStorage.removeItem("jwt");
     setCurrentUser({ isLoggedIn: false });
@@ -110,7 +125,9 @@ function App() {
   };
 
   const handleError = () => setErrorPopupOpen(true);
-  const handleSuccess = () => setSuccessPopupOpen(true);
+  const handleSuccess = () => {
+    setSuccessPopupOpen(true)
+  };
 
   const handleCardDelete = (card) =>
     api
@@ -154,11 +171,8 @@ function App() {
 
     if (isOpen) {
       document.addEventListener("keydown", closeByEscape);
-
     } else {
-
       document.removeEventListener("keydown", closeByEscape);
-      
     }
   }, [isOpen]);
 

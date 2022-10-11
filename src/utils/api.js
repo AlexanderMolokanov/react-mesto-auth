@@ -31,9 +31,9 @@ export class Api {
     });
   }
 
-  getAvatar() {
-    return this._options.get("users/me/avatar");
-  }
+  // getAvatar() {
+  //   return this._options.get("users/me/avatar");
+  // }
 
   setAvatar(avatarLink) {
     return this._options.patch("users/me/avatar", {
