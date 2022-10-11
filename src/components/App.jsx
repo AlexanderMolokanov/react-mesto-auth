@@ -34,26 +34,13 @@ function App() {
   // юзэффекты
   useEffect(() => {
     if (currentUser.isLoggedIn) {
-      Promise.all(
-        [api.getUserInfo(), api.loadAllCards()]
-        // , api.getAvatar()
-      )
-        .then(
-          ([
-            user,
-            cards,
-            // , avatar
-          ]) => {
-            setCurrentUser((prev) => {
-              return {
-                ...prev,
-                ...user,
-                // , ...avatar
-              };
-            });
-            setCards(cards);
-          }
-        )
+      Promise.all([api.getUserInfo(), api.loadAllCards()])
+        .then(([user, cards]) => {
+          setCurrentUser((prev) => {
+            return { ...prev, ...user };
+          });
+          setCards(cards);
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -71,8 +58,6 @@ function App() {
           });
         })
         .catch((error) => console.log(error));
-    // setCurrentUser({ isLoggedIn: true });
-    // history.push("/");
   }, []);
 
   // хуки
@@ -84,8 +69,6 @@ function App() {
       .signup(signupPayload)
       .then(() => {
         handleSuccess();
-        // history.push("/");
-        // setCurrentUser({ isLoggedIn: true });
       })
       .catch(handleError);
   };
@@ -95,7 +78,6 @@ function App() {
       .signin(loginPayload)
       .then((res) => {
         res && localStorage.setItem("jwt", res.token);
-
         currentUser.email = loginPayload.email;
         setCurrentUser({ isLoggedIn: true });
         history.push("/");
