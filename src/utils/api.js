@@ -62,7 +62,7 @@ export class Api {
   }
 
   // Вернуть пользователя
-  getMe() {
+  receiveMyDadas() {
     return this._options.checkAuth("users/me");
   }
 }

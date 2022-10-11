@@ -51,7 +51,7 @@ export class ApiReguest {
     return this._renderPromise(promise);
   }
   
-  getMe(type) {
+  receiveMyDadas(type) {
     const promise = fetch(`${this._url}/${type}`, {
       method: "GET",
       headers: this._headers,

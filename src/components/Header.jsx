@@ -1,13 +1,15 @@
 import React from "react";
-import { useContext, useState } from "react";
+import { useContext, useState, componentDidUpdate, NameClassComponent, useForceUpdate  } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import logo from "../images/header_logo.svg";
 
 function Header({ onLogoutClick }) {
   const currentUser = useContext(CurrentUserContext);
-  const location = useLocation();
   const [menuIsOpen, setMenuIsOpen] = useState(true);
+  // const update = componentDidUpdate(currentUser) 
+
+  const location = useLocation();
 
   const toggleMenu = () => setMenuIsOpen(!menuIsOpen);
 
@@ -15,6 +17,7 @@ function Header({ onLogoutClick }) {
     onLogoutClick();
     setMenuIsOpen(true);
   };
+  
 
   const Icons = () => (
     <button
@@ -23,6 +26,18 @@ function Header({ onLogoutClick }) {
       onClick={toggleMenu}
     />
   );
+
+  // var ReactComponentWithPureRenderMixin = {
+  //   shouldComponentUpdate: function(nextProps, nextState) {
+  //     return shallowCompare(this, nextProps, nextState);
+  //   },
+  // };
+
+  // componentDidUpdate (currentUser, { isLoggedIn: false }) {
+  //   if (currentUser.isLoggedIn === true) {
+  //     currentUser({isLoggedIn: true})
+  //   }
+  // }
 
   return (
     <header className="header">

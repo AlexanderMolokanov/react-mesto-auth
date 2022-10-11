@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, componentDidUpdate, useForceUpdate } from "react";
 import {
   // Routes,
   Route,
@@ -31,6 +31,7 @@ function App() {
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
   const [isErrorPopupOpen, setErrorPopupOpen] = useState(false);
 
+  // const forceUpdate = useForceUpdate();
   // юзэффекты
   useEffect(() => {
     if (currentUser.isLoggedIn) {
@@ -47,11 +48,12 @@ function App() {
     }
   }, [currentUser.isLoggedIn]);
 
+  // выполнить аутентификацию
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     jwt &&
       regApi
-        .getMe()
+        .receiveMyDadas()
         .then((res) => {
           setCurrentUser((prev) => {
             return { ...prev, ...res.data, isLoggedIn: true };
@@ -73,13 +75,23 @@ function App() {
       .catch(handleError);
   };
 
-  const onLogin = (loginPayload) =>
+  const onLogin = (loginDatas) =>
     regApi
-      .signin(loginPayload)
+      .signin(loginDatas)
       .then((res) => {
         res && localStorage.setItem("jwt", res.token);
-        currentUser.email = loginPayload.email;
         setCurrentUser({ isLoggedIn: true });
+        setCurrentUser(((prev) => {
+          return { ...prev, ...res.data, email: loginDatas.email  };
+        })
+        );
+        // currentUser.email = loginDatas.email;
+        // forceUpdate(currentUser)
+        // {
+          // if (this.props.userID !== prevProps.userID) {
+          //   this.fetchData(this.props.userID);
+          // }
+        // }
         history.push("/");
       })
       .catch(handleError);
