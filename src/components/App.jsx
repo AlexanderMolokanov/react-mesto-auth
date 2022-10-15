@@ -1,4 +1,9 @@
-import React, { useState, useEffect, componentDidUpdate, useForceUpdate } from "react";
+import React, {
+  useState,
+  useEffect,
+  componentDidUpdate,
+  useForceUpdate,
+} from "react";
 import {
   // Routes,
   Route,
@@ -13,7 +18,8 @@ import { EditProfilePopup } from "./EditProfilePopup";
 import { EditAvatarPopup } from "./EditAvatarPopup";
 import { AddPlacePopup } from "./AddPlacePopup";
 import { ImagePopup } from "./ImagePopup";
-import { api, regApi } from "../utils/api";
+import { apiiReg } from "../utils/ApiiReg";
+import { apii } from "../utils/Apii";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Login } from "./Login";
@@ -21,6 +27,8 @@ import { Register } from "./Register";
 import { InfoTooltip } from "./InfoTooltip";
 
 function App() {
+  // хуки
+  const history = useHistory();
   // Состояния
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -31,11 +39,11 @@ function App() {
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
   const [isErrorPopupOpen, setErrorPopupOpen] = useState(false);
 
-  // const forceUpdate = useForceUpdate();
   // юзэффекты
+  // выполнить загрузку данных пользователя
   useEffect(() => {
     if (currentUser.isLoggedIn) {
-      Promise.all([api.getUserInfo(), api.loadAllCards()])
+      Promise.all([apii.getUserInfo(), apii.loadAllCards()])
         .then(([user, cards]) => {
           setCurrentUser((prev) => {
             return { ...prev, ...user };
@@ -48,26 +56,30 @@ function App() {
     }
   }, [currentUser.isLoggedIn]);
 
-  // выполнить аутентификацию
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    jwt &&
-      regApi
-        .receiveMyDadas()
+    // const jwt = localStorage.getItem("jwt");
+    localStorage.getItem("jwt") &&
+      apiiReg
+        .isJwtValid()
         .then((res) => {
           setCurrentUser((prev) => {
-            return { ...prev, ...res.data, isLoggedIn: true };
+            return {
+              ...prev,
+              ...res.data,
+              isLoggedIn: true,
+            };
           });
+          history.push("/");
         })
+        // .finally(() => {
+        //     window.onload = function () {window.location.reload()}
+        // })
         .catch((error) => console.log(error));
-  }, []);
+  }, [localStorage.getItem("jwt")]);
 
-  // хуки
-  const history = useHistory();
-
-  // хендлеры
+  // регистрация
   const handleRegistration = (signupPayload) => {
-    regApi
+    apiiReg
       .signup(signupPayload)
       .then(() => {
         handleSuccess();
@@ -75,24 +87,18 @@ function App() {
       .catch(handleError);
   };
 
+  // авторизация, сохраненине токена и редирект
   const onLogin = (loginDatas) =>
-    regApi
+    apiiReg
       .signin(loginDatas)
       .then((res) => {
         res && localStorage.setItem("jwt", res.token);
-        setCurrentUser({ isLoggedIn: true });
-        setCurrentUser(((prev) => {
-          return { ...prev, ...res.data, email: loginDatas.email  };
-        })
-        );
-        // currentUser.email = loginDatas.email;
-        // forceUpdate(currentUser)
-        // {
-          // if (this.props.userID !== prevProps.userID) {
-          //   this.fetchData(this.props.userID);
-          // }
-        // }
-        history.push("/");
+        // setCurrentUser({ isLoggedIn: true });
+        // history.push("/");
+        // setCurrentUser(((prev) => {
+        //   return { ...prev, ...res.data, email: loginDatas.email, isLoggedIn: true  };
+        // })
+        // );
       })
       .catch(handleError);
 
@@ -103,7 +109,7 @@ function App() {
 
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
-    api
+    apii
       .toggleLike(card._id, isLiked)
       .then((newCard) =>
         setCards((state) =>
@@ -125,7 +131,7 @@ function App() {
   };
 
   const handleCardDelete = (card) =>
-    api
+    apii
       .deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card._id));
@@ -172,25 +178,29 @@ function App() {
   }, [isOpen]);
 
   const handleUserUpdate = (user) =>
-    api
+    apii
       .setUserInfo(user)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser((state) => {
+          return { ...state, ...res };
+        });
         setIsEditProfilePopupOpen(false);
       })
       .catch((err) => console.log(err));
 
   const handleAvatarUpdate = ({ avatar }) =>
-    api
+    apii
       .setAvatar(avatar)
       .then((user) => {
-        setCurrentUser(user);
+        setCurrentUser((state) => {
+          return { ...state, ...user };
+        });
         setIsEditAvatarPopupOpen(false);
       })
       .catch((err) => console.log(err));
 
   const handleAddPlaceSubmit = (cardPayload) =>
-    api
+    apii
       .postCard(cardPayload)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -200,8 +210,6 @@ function App() {
 
   const handleSuccessPopupClose = (e) => {
     closeAllPopups(e);
-    // navigate("/sign-in");
-    setCurrentUser({ isLoggedIn: true });
     history.push("/sign-in");
   };
 
