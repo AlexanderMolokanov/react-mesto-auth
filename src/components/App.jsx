@@ -11,6 +11,7 @@ import {
   useHistory,
   // useNavigate
 } from "react-router-dom";
+// import { useHistory } from "react-router";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
@@ -28,7 +29,11 @@ import { InfoTooltip } from "./InfoTooltip";
 
 function App() {
   // хуки
-  const history = useHistory();
+  let history = useHistory();
+
+  // function handlePush() {
+  //   history.push("/");
+  // }
   // Состояния
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -38,51 +43,9 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
   const [isErrorPopupOpen, setErrorPopupOpen] = useState(false);
-  const [jwt, setJwt] = useState([]);
-
+  // const [jwt, setJwt] = useState([]);
 
   // юзэффекты
-  // выполнить загрузку данных пользователя
-  useEffect(() => {
-    currentUser.isLoggedIn &&
-      Promise.all([apii.getUserInfo(), apii.loadAllCards()])
-        .then(([user, cards]) => {
-          setCurrentUser((prev) => {
-            return { ...prev, ...user };
-          });
-          setCards(cards);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  }, [currentUser.isLoggedIn]);
-
-  useEffect(() => {
-    // const jwt = localStorage.getItem("jwt");
-    jwt &&
-      apiiReg
-        .isJwtValid()
-        .then((res) => {
-          setCurrentUser((prev) => {
-            return {
-              ...prev,
-              ...res.data,
-              isLoggedIn: true,
-            };
-          });
-          // const history = useHistory();
-          const location = {
-            pathname: '/',
-            currentUser: { isLoggedIn: true }
-            // setCurrentUser({ isLoggedIn: false });
-          }
-          history.push(location);
-        })
-        // .finally(() => {
-        //     window.onload = function () {window.location.reload()}
-        // })
-        .catch((error) => console.log(error));
-  }, []);
 
   // регистрация
   const handleRegistration = (signupPayload) => {
@@ -94,20 +57,67 @@ function App() {
       .catch(handleError);
   };
 
-  // авторизация, сохраненине токена и редирект
+  // авторизация
   const onLogin = (loginDatas) =>
     apiiReg
       .signin(loginDatas)
       .then((res) => {
-        res && localStorage.setItem("jwt", res.token) && setJwt(localStorage.getItem("jwt"));
+        res && localStorage.setItem("jwt", res.token);
+        // && setJwt(localStorage.getItem("jwt"));
         // setCurrentUser({ isLoggedIn: true });
         // history.push("/");
+        // handlePush()
         // setCurrentUser(((prev) => {
         //   return { ...prev, ...res.data, email: loginDatas.email, isLoggedIn: true  };
         // })
         // );
       })
       .catch(handleError);
+
+  // аутентификация
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    jwt &&
+      apiiReg
+        .isJwtValid()
+        .then((res) => {
+          // console.log(res)
+          setCurrentUser((prev) => {
+            return {
+              ...prev,
+              ...res.data,
+              isLoggedIn: true,
+            };
+          });
+          // const location = {
+          //   pathname: '/',
+          //   currentUser: { isLoggedIn: true }
+          //   // setCurrentUser({ isLoggedIn: false });
+          // }
+          // history.push('/');
+        })
+        // .finally(() => {
+        //     window.onload = function () {window.location.reload()}
+        // })
+        .catch((error) => console.log(error));
+  }, []);
+
+  // загрузка данных пользователя
+  useEffect(() => {
+    currentUser.isLoggedIn &&
+      Promise.all([apii.getUserInfo(), apii.loadAllCards()])
+        .then(([user, cards]) => {
+          setCurrentUser((prev) => {
+            // console.log(user) 
+            return { ...prev, ...user };
+          });
+          setCards(cards);
+          history.push('/');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }, [currentUser.isLoggedIn]);
 
   const handleEditAvatarClick = () => setIsEditAvatarPopupOpen(true);
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
