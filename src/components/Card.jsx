@@ -8,7 +8,7 @@ export function Card({ card, onCardClick, onCardLike, onDeleteClick }) {
   const handleClick = () => onCardClick(card);
   const handleLikeClick = () => onCardLike(card);
   const handleDeleteClick = () => onDeleteClick(card);
-  const cardLikeButtonClassName = `...`;
+  // const cardLikeButtonClassName = `...`;
 
   return (
     <article className="element">

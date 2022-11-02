@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 export function ImagePopup({ onClose, card }) {
   return (
     <div

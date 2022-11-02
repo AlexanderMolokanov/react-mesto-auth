@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  componentDidUpdate,
-  useForceUpdate,
-} from "react";
+import React, { useState, useEffect } from "react";
 import {
   // Routes,
   Route,
@@ -11,7 +6,6 @@ import {
   useHistory,
   // useNavigate
 } from "react-router-dom";
-// import { useHistory } from "react-router";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
@@ -31,9 +25,6 @@ function App() {
   // хуки
   let history = useHistory();
 
-  // function handlePush() {
-  //   history.push("/");
-  // }
   // Состояния
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -43,7 +34,6 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
   const [isErrorPopupOpen, setErrorPopupOpen] = useState(false);
-  // const [jwt, setJwt] = useState([]);
 
   // юзэффекты
 
@@ -58,30 +48,27 @@ function App() {
   };
 
   // авторизация
-  const onLogin = (loginDatas) =>
+  const onLogin = (loginDatas) => {
+    if (!loginDatas.email || !loginDatas.password) {
+      return;
+    }
     apiiReg
       .signin(loginDatas)
       .then((res) => {
-        res && localStorage.setItem("jwt", res.token);
-        // && setJwt(localStorage.getItem("jwt"));
-        // setCurrentUser({ isLoggedIn: true });
-        // history.push("/");
-        // handlePush()
-        // setCurrentUser(((prev) => {
-        //   return { ...prev, ...res.data, email: loginDatas.email, isLoggedIn: true  };
-        // })
-        // );
+        res.token && localStorage.setItem("jwt", res.token);
+        jwtPut();
       })
       .catch(handleError);
+  };
 
-  // аутентификация
-  useEffect(() => {
+  // аутентификация при авторизации
+
+  const jwtPut = () => {
     const jwt = localStorage.getItem("jwt");
     jwt &&
       apiiReg
         .isJwtValid()
         .then((res) => {
-          // console.log(res)
           setCurrentUser((prev) => {
             return {
               ...prev,
@@ -89,16 +76,26 @@ function App() {
               isLoggedIn: true,
             };
           });
-          // const location = {
-          //   pathname: '/',
-          //   currentUser: { isLoggedIn: true }
-          //   // setCurrentUser({ isLoggedIn: false });
-          // }
-          // history.push('/');
         })
-        // .finally(() => {
-        //     window.onload = function () {window.location.reload()}
-        // })
+        .catch((error) => console.log(error));
+  };
+
+// аутентификация
+
+  useEffect(() => {
+    const jwte = localStorage.getItem("jwt");
+    jwte &&
+      apiiReg
+        .isJwtValid()
+        .then((res) => {
+          setCurrentUser((prev) => {
+            return {
+              ...prev,
+              ...res.data,
+              isLoggedIn: true,
+            };
+          });
+        })
         .catch((error) => console.log(error));
   }, []);
 
@@ -108,11 +105,10 @@ function App() {
       Promise.all([apii.getUserInfo(), apii.loadAllCards()])
         .then(([user, cards]) => {
           setCurrentUser((prev) => {
-            // console.log(user) 
             return { ...prev, ...user };
           });
           setCards(cards);
-          history.push('/');
+          // history.push("/");
         })
         .catch((error) => {
           console.log(error);

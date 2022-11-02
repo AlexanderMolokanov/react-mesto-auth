@@ -7,7 +7,6 @@ import logo from "../images/header_logo.svg";
 function Header({ onLogoutClick }) {
   const currentUser = useContext(CurrentUserContext);
   const [menuIsOpen, setMenuIsOpen] = useState(true);
-  // const update = componentDidUpdate(currentUser) 
 
   const location = useLocation();
 
@@ -26,18 +25,6 @@ function Header({ onLogoutClick }) {
       onClick={toggleMenu}
     />
   );
-
-  // var ReactComponentWithPureRenderMixin = {
-  //   shouldComponentUpdate: function(nextProps, nextState) {
-  //     return shallowCompare(this, nextProps, nextState);
-  //   },
-  // };
-
-  // componentDidUpdate (currentUser, { isLoggedIn: false }) {
-  //   if (currentUser.isLoggedIn === true) {
-  //     currentUser({isLoggedIn: true})
-  //   }
-  // }
 
   return (
     <header className="header">

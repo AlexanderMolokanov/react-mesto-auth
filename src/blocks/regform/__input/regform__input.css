@@ -12,3 +12,22 @@
   margin-bottom: 30px;
   outline: 0;
 }
+
+/* input:-webkit-autofill,
+
+input:-webkit-autofill:hover, 
+
+input:-webkit-autofill:focus,  */
+
+/* input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    background-color: black;
+} */
+
+/* input:autofill {
+  background-color: black;
+} */
+
+/* input:-webkit-autofil{
+  background-color: black;
+} */
