@@ -12,10 +12,9 @@
     border-bottom: solid rgba(0, 0, 0, .2) 1px;
     width: 100%;
     position: relative;
-
-    
 }
 
 .popup__input::placeholder {
     color: #C4C4C4;
 }
+

@@ -3,15 +3,13 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { PopupWithForm } from "./PopupWithForm";
 
 export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
-  
   // Хуки
   const currentUser = useContext(CurrentUserContext);
-  
+
   // Стейты
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  
-  
+
   useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);

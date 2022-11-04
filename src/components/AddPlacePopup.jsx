@@ -2,8 +2,8 @@ import { useState } from "react";
 import { PopupWithForm } from "./PopupWithForm";
 
 export const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
-  const [name, setName] = useState("");
-  const [link, setLink] = useState("");
+  const [name, setName] = useState(null);
+  const [link, setLink] = useState(null);
 
   const handleChange = (e) => {
     if (e.target.name === "placeName") {
@@ -20,8 +20,11 @@ export const AddPlacePopup = ({ isOpen, onClose, onAddCard }) => {
       name,
       link,
     });
-    setName("");
-    setLink("");
+
+    if (isOpen) {
+      setName(null);
+      setLink(null);
+    }
   };
 
   return (

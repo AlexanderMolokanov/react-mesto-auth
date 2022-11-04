@@ -56,31 +56,21 @@ function App() {
       .signin(loginDatas)
       .then((res) => {
         res.token && localStorage.setItem("jwt", res.token);
-        jwtPut();
+
+        // this.setState(this.setState({username: '', password: ''}),() => {
+
+        //   this.props.handleLogin();
+        //   history.push('/');
+
+        setCurrentUser((prev) => {
+          return { ...prev, isLoggedIn: true, email: loginDatas.email };
+        });
+        setCards(cards);
       })
       .catch(handleError);
   };
 
-  // аутентификация при авторизации
-
-  const jwtPut = () => {
-    const jwt = localStorage.getItem("jwt");
-    jwt &&
-      apiiReg
-        .isJwtValid()
-        .then((res) => {
-          setCurrentUser((prev) => {
-            return {
-              ...prev,
-              ...res.data,
-              isLoggedIn: true,
-            };
-          });
-        })
-        .catch((error) => console.log(error));
-  };
-
-// аутентификация
+  // аутентификация
 
   useEffect(() => {
     const jwte = localStorage.getItem("jwt");
@@ -108,7 +98,6 @@ function App() {
             return { ...prev, ...user };
           });
           setCards(cards);
-          // history.push("/");
         })
         .catch((error) => {
           console.log(error);
