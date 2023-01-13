@@ -10,6 +10,12 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  const [isValidName, setIsValidName] = useState(true);
+  const [isValidJob, setIsValidJob] = useState(true);
+
+  const [errorsName, setErrorsName] = useState([]);
+  const [errorsJob, setErrorsJob] = useState([]);
+
   useEffect(() => {
     if (currentUser) {
       setName(currentUser.name);
@@ -20,9 +26,13 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
   const handleChange = (e) => {
     if (e.target.name === "nameInput") {
       setName(e.target.value);
+      setIsValidName(e.target.checkValidity());
+      setErrorsName(e.target.validationMessage);
     }
     if (e.target.name === "jobInput") {
       setDescription(e.target.value);
+      setIsValidJob(e.target.checkValidity());
+      setErrorsJob(e.target.validationMessage);
     }
   };
 
@@ -36,10 +46,10 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
       title="Редактировать профиль"
       name="profile"
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={submitHandler}
       buttonLabel="Сохранить"
     >
@@ -55,7 +65,7 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
           onChange={handleChange}
           value={name || ""}
         />
-        <span className="popup__error"></span>
+        <span className={`popup__error ${isValidName ? '' : 'popup__error_state_visible'}`}>{errorsName}</span>
       </div>
 
       <div className="popup__input-wrapper">
@@ -70,7 +80,7 @@ export const EditProfilePopup = ({ isOpen, onClose, onUserUpdate }) => {
           onChange={handleChange}
           value={description || ""}
         />
-        <span className="popup__error"></span>
+        <span className={`popup__error ${isValidJob ? '' : 'popup__error_state_visible'}`}>{errorsJob}</span>
       </div>
     </PopupWithForm>
   );

@@ -1,8 +1,12 @@
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { PopupWithForm } from "./PopupWithForm";
 
 export const EditAvatarPopup = ({ isOpen, onClose, onAvatarUpdate }) => {
   const avatarRef = useRef();
+
+  const [isValidJob, setIsValidJob] = useState(true);
+  const [errorsJob, setErrorsJob] = useState([]);
+
 
   useEffect(() => {
     if (isOpen) {
@@ -17,16 +21,24 @@ export const EditAvatarPopup = ({ isOpen, onClose, onAvatarUpdate }) => {
     });
   };
 
+  const handleChange = (e) => {
+    
+    if (e.target.name === "avatarLink") {
+      setIsValidJob(e.target.checkValidity());
+      setErrorsJob(e.target.validationMessage);
+    }
+  };
+
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
-      onSubmit={submitHandler}
       title="Обновить аватар"
       name="avatar"
       buttonLabel="Сохранить"
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={submitHandler}
     >
-      <div className="popup__field-wrapper">
+      <div className="popup__input-wrapper">
         <input
           className="popup__input"
           name="avatarLink"
@@ -34,8 +46,9 @@ export const EditAvatarPopup = ({ isOpen, onClose, onAvatarUpdate }) => {
           type="url"
           required
           ref={avatarRef}
+          onChange={handleChange}
         />
-        <p className="popup__error avatar-link-error"></p>
+        <span className={`popup__error avatar-link-error ${isValidJob ? '' : 'popup__error_state_visible'}`}>{errorsJob}</span>
       </div>
     </PopupWithForm>
   );
